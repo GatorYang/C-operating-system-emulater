@@ -7,9 +7,9 @@ int argc;
 const char* argv [3];
 int menu();
 int choice;
+int pages;
 int loc;
-void bestFit();
-void worstFit();
+
 struct node
 {
     int number;
@@ -26,11 +26,13 @@ class LinkedList{
     {
         head = NULL;
     };
+    void setHead(node* n1){ head = n1;};
+    node* getHead(){ return head;};
     void makeList(int size);
     void insert(int loc, int numb, int numbPages);
-    int bestins(int numbPages);
-    void worsins(int nub, int numbPages);
-    void remove(int number, int numbPages);
+    int bestins(LinkedList Free, int numbPages);
+    int worstins(LinkedList Free, int numbPages);
+    void remove(int number);
     int fragCount();
     void printList();
 
