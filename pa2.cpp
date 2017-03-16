@@ -12,13 +12,16 @@ int main( int argc, char **argv)
     for(int i = 0; i != argc; ++i){
         cppArgs[i] = string(argv[i]);
     }
-
+    if (argc !=2 ){
+    	cout << "Error, not a proper argument. Please try again using \"best\" or \"worst\"." <<endl;
+    	return 0;
+    }
     string algorithm;
 	algorithm = argv[1];
 	if (algorithm != "best" && algorithm != "worst")
 	{
-	cout << "Error, not a proper argument. Please try again using \"best\" or \"worst\"." << endl;
-	return 0;
+		cout << "Error, not a proper argument. Please try again using \"best\" or \"worst\"." << endl;
+		return 0;
 	}
 	cout << endl << "Using " << algorithm << " fit algorithm" << endl;
 
@@ -109,17 +112,17 @@ int LinkedList::bestins(LinkedList Free, int numbPages) //give the location for 
 
     head = Free.getHead();
     node * temp = head;
-    int list [31];
+    int list [32];
     int loc = 0;
     int l = 0;
     int max = 100;
     bool isSpace = true;
-    for (int i = 0; i < 31; i++) //set the list to 0
+    for (int i = 0; i <32; i++) //set the list to 0
     {
         list [i]= 0;
     }
 
-    for (int i = 0; i < 31; i++)
+    for (int i = 0; i < 32; i++)
     {
         if (temp -> name == "FREE")  //the array store how much free "pages" it has from that point
         {
@@ -132,14 +135,21 @@ int LinkedList::bestins(LinkedList Free, int numbPages) //give the location for 
         temp = temp->next;
 
     }
+    for (int i = 0; i < 32; i++){
+    	cout << list [i] << '\t';
+    	if((i+1)%8==0){
+    		cout << '\n';
+    	}
+    }
+    cout << '\n';
 
-    for(int i = 0; i < 31; i++) //compares and find smallest posible sarting point
+    for(int i = 0; i < 32; i++) //compares and find smallest posible sarting point
     {
     	if(list[i] >= numbPages ){
     		isSpace = false;
     	}
 
-        if(list[i] <= max && list[i] >= numbPages && list[i] > 0){
+        if(list[i] < max && list[i] >= numbPages && list[i] > 0){
             loc = i;
             max = list[i];
         }
@@ -156,17 +166,17 @@ int LinkedList::worstins(LinkedList Free, int numbPages) //give the location for
 
     head = Free.getHead();
     node * temp = head;
-    int list [31];
+    int list [32];
     int loc = 0;
     int l = 0;
     int min = 0;
     bool isSpace = true;
-    for (int i = 0; i < 31; i++) //set the list to 0
+    for (int i = 0; i < 32; i++) //set the list to 0
     {
         list [i]= 0;
     }
 
-    for (int i = 0; i < 31; i++)
+    for (int i = 0; i < 32; i++)
     {
         if (temp -> name == "FREE")  //the array store how much free "pages" it has from that point
         {
@@ -180,13 +190,13 @@ int LinkedList::worstins(LinkedList Free, int numbPages) //give the location for
 
     }
 
-    for(int i = 0; i < 31; i++) //compares and find biggest posible sarting point
+    for(int i = 0; i < 32; i++) //compares and find biggest posible sarting point
     {
     	if(list[i] >= numbPages ){
     		isSpace = false;
     	}
 
-        if(list[i] >= min && list[i] >= numbPages && list[i] > 0){
+        if(list[i] > min && list[i] >= numbPages && list[i] > 0){
             loc = i;
             min = list[i];
         }
