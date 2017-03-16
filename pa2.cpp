@@ -12,9 +12,7 @@ int main( int argc, char **argv)
     for(int i = 0; i != argc; ++i){
         cppArgs[i] = string(argv[i]);
     }
-    // for (int i = 0 ; i != argc; ++i){
-    //     std::cout <<"argv[" << i << "] = "<< cppArgs[i]<< std::endl;
-    // }
+
     string algorithm;
 	algorithm = argv[1];
 	if (algorithm != "best" && algorithm != "worst")
@@ -32,8 +30,14 @@ int main( int argc, char **argv)
 	//int chocie = 0;
 	int number;
 	int numbPages;
-
 	int loc;
+	cout << "1. Add Program\n";
+	cout << "2. Kill Program\n";
+	cout << "3. Fragmentation\n";
+	cout << "4. Print\n";
+	cout << "5. Exit";
+
+
 	while(choice != 5){
 
 		choice = menu();				//create and out put the menu
@@ -44,7 +48,7 @@ int main( int argc, char **argv)
 						if (cin.fail()){
 							cin.clear();
 					        cin.ignore(256,'\n');
-							cout << "Error bad input."<< endl;
+							cout << "Error bad input, please only enter a number."<< endl;
 							break;
 						}
 						cout << "Program Size (KB)- ";
@@ -53,7 +57,7 @@ int main( int argc, char **argv)
 						if (cin.fail()){
 							cin.clear();
 					        cin.ignore(256,'\n');
-							cout << "Error bad input."<< endl;
+							cout << "Error bad input, please only enter a number."<< endl;
 							break;
 						}
 						if(programSize % 4 == 0){				//if progarm size is divisible by 4 then add that many pages
@@ -74,8 +78,6 @@ int main( int argc, char **argv)
 						}
 						Free.insert(loc, number, numbPages);        // insert acording to location
 
-
-
 						break;
 
 			case 2:	cout << "Program Name: P";				//if input is to kill program then call removal
@@ -83,7 +85,7 @@ int main( int argc, char **argv)
 					if (cin.fail()){
 							cin.clear();
 					        cin.ignore(256,'\n');
-							cout << "Error bad input."<< endl;
+							cout << "Error bad input, please only enter a number."<< endl;
 							break;
 					}
 					Free.remove(number);
@@ -227,20 +229,19 @@ void LinkedList::printList() //print out the whole list
 int menu(void){
 
 	int choice;								//creating menu and print the options to be selected
-
-	cout << "\nMenu:\n";
-	cout << "1. Add Program\n";
-	cout << "2. Kill Program\n";
-	cout << "3. Fragmentation\n";
-	cout << "4. Print\n";
-	cout << "5. Exit";
 	cout << "\nChoice- ";
-
 	cin >> choice;
 	if (cin.fail()){
 		cin.clear();
-		cout << "Error bad input."<< endl;
-		cout << "Choice: ";
+		cout << "Error bad input, please only enter a number choice."<< endl;
+		cout << "Choice- ";
+	    cin.ignore(256,'\n');
+		cin >> choice;
+	}
+	while(choice > 5){
+		cin.clear();
+		cout << "Error bad input, please only enter a number less than 5."<< endl;
+		cout << "Choice- ";
 	    cin.ignore(256,'\n');
 		cin >> choice;
 	}
@@ -315,7 +316,3 @@ void LinkedList::remove(int number){
 		cout << "Program P" << number << " succesfully killed, " << killcount << " page(s) reclaimed.\n";
 	}
 }
-
-// bool isDigit(string ans){
-// 	if
-// }
