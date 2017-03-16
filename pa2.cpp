@@ -12,13 +12,13 @@ int main( int argc, char **argv)
     for(int i = 0; i != argc; ++i){
         cppArgs[i] = string(argv[i]);
     }
-    if (argc !=2 ){
+    if (argc !=2 ){ //if is not "pa2.cpp" + "conditon", quit
     	cout << "Error, not a proper argument. Please try again using \"best\" or \"worst\"." <<endl;
     	return 0;
     }
     string algorithm;
-	algorithm = argv[1];
-	if (algorithm != "best" && algorithm != "worst")
+	algorithm = argv[1]; //string so easier to manage
+	if (algorithm != "best" && algorithm != "worst") //make sure the "conditon" fit is either best or worst
 	{
 		cout << "Error, not a proper argument. Please try again using \"best\" or \"worst\"." << endl;
 		return 0;
@@ -27,10 +27,8 @@ int main( int argc, char **argv)
 
 	LinkedList Free;
 
-	Free.makeList(32);
+	Free.makeList(32); //make the list
 
-
-	//int chocie = 0;
 	int number;
 	int numbPages;
 	int loc;
@@ -41,14 +39,14 @@ int main( int argc, char **argv)
 	cout << "5. Exit";
 
 
-	while(choice != 5){
+	while(choice != 5){  //while not quiting
 
-		choice = menu();				//create and out put the menu
+		choice = menu();				//which choice they want to do
 
 		switch(choice){
-			case 1:	cout << "\nProgram Name- P";			//if input is to add call the insertion method add programs
+			case 1:	cout << "\nProgram Name- P";			//if input is to add call the insertion with "fit" method add programs
 						cin >> number;
-						if (cin.fail()){
+						if (cin.fail()){  //if input is not a number
 							cin.clear();
 					        cin.ignore(256,'\n');
 							cout << "Error bad input, please only enter a number."<< endl;
@@ -83,9 +81,9 @@ int main( int argc, char **argv)
 
 						break;
 
-			case 2:	cout << "Program Name: P";				//if input is to kill program then call removal
+			case 2:	cout << "Program Name: P";				//if input is to kill program then call remove method
 					cin >> number;
-					if (cin.fail()){
+					if (cin.fail()){                 //if input is nto a number
 							cin.clear();
 					        cin.ignore(256,'\n');
 							cout << "Error bad input, please only enter a number."<< endl;
@@ -101,23 +99,23 @@ int main( int argc, char **argv)
 			case 4:	Free.printList();			//call print function
 						break;
 
-			case 5:	cout << "Program Exit\n";   //end program
+			case 5:	cout << "Program Exit\n";   //exit program
 						break;
 		}
 
 	}
 }
-int LinkedList::bestins(LinkedList Free, int numbPages) //give the location for best fit to insert
+int LinkedList::bestins(LinkedList Free, int numbPages) //returns the location for best fit to insert
 {
 
     head = Free.getHead();
     node * temp = head;
-    int list [32];
+    int list [32];    //make an array, each location array corsponding to each pages in the linkedlist
     int loc = 0;
     int l = 0;
     int max = 100;
-    bool isSpace = true;
-    for (int i = 0; i <32; i++) //set the list to 0
+    bool isSpace = true; //bool see if there is enough space
+    for (int i = 0; i <32; i++) //set the array list to 0
     {
         list [i]= 0;
     }
@@ -128,42 +126,43 @@ int LinkedList::bestins(LinkedList Free, int numbPages) //give the location for 
         {
             list [l]+=1;
         }
-        if(temp -> name != "FREE") // free "pages" counter stop if not "free"
+        if(temp -> name != "FREE") // free "pages" counter move to next page if not "free"
         {
             l = i+1;
         }
         temp = temp->next;
 
     }
-    for (int i = 0; i < 32; i++){
-    	cout << list [i] << '\t';
-    	if((i+1)%8==0){
-    		cout << '\n';
-    	}
-    }
-    cout << '\n';
+    //following is just printing out the array for debuging purpose
+    // for (int i = 0; i < 32; i++){
+    // 	cout << list [i] << '\t';
+    // 	if((i+1)%8==0){
+    // 		cout << '\n';
+    // 	}
+    // }
+    // cout << '\n';
 
     for(int i = 0; i < 32; i++) //compares and find smallest posible sarting point
     {
-    	if(list[i] >= numbPages ){
+    	if(list[i] >= numbPages ){ //if non of the free pages are big enough for the method need
     		isSpace = false;
     	}
 
-        if(list[i] < max && list[i] >= numbPages && list[i] > 0){
+        if(list[i] < max && list[i] >= numbPages && list[i] > 0){ //go down list find smallest free page
             loc = i;
             max = list[i];
         }
 
     }
     if (isSpace){
-    	return -1;
+    	return -1; //reutnr -1 so know not enough space in whole linkedlist
     }
-    return loc;
+    return loc; //return locaiton where to start
 }
 
-int LinkedList::worstins(LinkedList Free, int numbPages) //give the location for best fit to insert
+int LinkedList::worstins(LinkedList Free, int numbPages) //give the location for worst fit to insert
 {
-
+    //basic much same as bestins but just there last part during compares different
     head = Free.getHead();
     node * temp = head;
     int list [32];
@@ -196,7 +195,7 @@ int LinkedList::worstins(LinkedList Free, int numbPages) //give the location for
     		isSpace = false;
     	}
 
-        if(list[i] > min && list[i] >= numbPages && list[i] > 0){
+        if(list[i] > min && list[i] >= numbPages && list[i] > 0){ //find biggest free space
             loc = i;
             min = list[i];
         }
@@ -208,7 +207,7 @@ int LinkedList::worstins(LinkedList Free, int numbPages) //give the location for
     return loc;
 }
 
-void LinkedList::makeList(int size)
+void LinkedList::makeList(int size) // make the list of FREEs
 {
 
 	head = new node;
@@ -236,9 +235,9 @@ void LinkedList::printList() //print out the whole list
 	}
 }
 
-int menu(void){
+int menu(void){ //take in the choice and see if is correct
 
-	int choice;								//creating menu and print the options to be selected
+	int choice;
 	cout << "\nChoice- ";
 	cin >> choice;
 	if (cin.fail()){
@@ -248,7 +247,7 @@ int menu(void){
 	    cin.ignore(256,'\n');
 		cin >> choice;
 	}
-	while(choice > 5){
+	while(choice > 5){ //if choice picked is not on the menu
 		cin.clear();
 		cout << "Error bad input, please only enter a number less than 5."<< endl;
 		cout << "Choice- ";
@@ -265,7 +264,7 @@ int LinkedList::fragCount()         // return how many fragments are tehre
 	int count = 0;							//setting the count = to 0
 	bool fragment = true;
 	node * temp = head;
-	while(temp != NULL){					// index whole linked list
+	while(temp != NULL){					// go through whole linkedlist
 		if(temp -> name == "FREE" && fragment == true){
 			count++;
 			fragment = false;				//if the node is free and boolean is true then add one to count
@@ -282,11 +281,11 @@ int LinkedList::fragCount()         // return how many fragments are tehre
 		cout << count;
 }
 
-void LinkedList::insert(int loc, int number, int numbPages){
+void LinkedList::insert(int loc, int number, int numbPages){ //insert program starting from the location given
 
 	node * temp = head;
 	while (temp != NULL){
-		if(temp -> name == ("P" + to_string(number))){		//if the node is not equal to program then move to the next
+		if(temp -> name == ("P" + to_string(number))){		//check if program is already running
 			cout << "Error, Program P" << number << " already running" << endl;
 			return;
 		}
@@ -301,13 +300,13 @@ void LinkedList::insert(int loc, int number, int numbPages){
 
 	for(int i = 0; i < numbPages; i++){
 
-		temp -> name = nodeName;				//set the node = program name when input is received
+		temp -> name = nodeName;				//set the node = program name as given
 		temp = temp -> next;
 	}
 	cout << "Program P" << number << " added succesfully: " << numbPages << " page(s) used.\n";
 }
 
-void LinkedList::remove(int number){
+void LinkedList::remove(int number){ //go through the whole list and remvoe the program given
 	bool check = true;
 	int killcount = 0;
 	node * temp = head;
@@ -315,14 +314,14 @@ void LinkedList::remove(int number){
 		if(temp -> name == ("P" + to_string(number))){		//if the node is not equal to program then move to the next
 			temp->name = "FREE";
 			killcount += 1;
-			check = false;
+			check = false;// so if a page is freed, so we know we removed osmthing
 		}
 		temp = temp->next;
 	}
-	if (check){
+	if (check){ //if we didn't remove anything, then progarm is not running
 		cout << "Error, program P" <<number << " is not running." <<endl;
 	}
-	if (!check){
+	if (!check){ //if we removed stuff, the program was running
 		cout << "Program P" << number << " succesfully killed, " << killcount << " page(s) reclaimed.\n";
 	}
 }
